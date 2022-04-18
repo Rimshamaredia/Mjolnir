@@ -1,0 +1,11 @@
+# ignore env files
+.env
+
+# pycache
+__pycache__/*
+VisionHelp/__pycache__/app.cpython-37.pyc
+VisionHelp/__pycache__/rds_db.cpython-37.pyc
+
+# MacOS files
+VisionHelp/.DS_Store
+.DS_Store
