@@ -9,6 +9,10 @@ app = Flask(__name__)
 def userInfo():
     return render_template('UserInfo.html')
 
+@app.route('/instructions')
+def display_inst():
+    return render_template('Instructions.html')
+
 #@app.route('/')
 #def home_page():
 #    return render_template('home_page.html')
