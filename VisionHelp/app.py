@@ -1,13 +1,13 @@
 
 from flask import Flask, render_template, request, redirect, url_for
-import rds_db as db
+#import rds_db as db
   
 
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-    return 'Hello World'
+def userInfo():
+    return render_template('UserInfo.html')
 
 #@app.route('/')
 #def home_page():

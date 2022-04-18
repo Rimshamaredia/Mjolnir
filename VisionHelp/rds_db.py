@@ -81,8 +81,11 @@ Helper Functions
 """
 
 # get DB
-def get_db(table_name):
+def get_db():
     with conn.cursor() as curr:
-        curr.execute("SELECT * FROM %s", (table_name))
+        curr.execute("SELECT * database")
         table_contents = curr.fetchall()
         print(table_contents)
+        
+if __name__=="__main__":
+    get_db()
