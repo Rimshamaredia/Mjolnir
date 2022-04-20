@@ -8,6 +8,8 @@ import base64
 import io
 from PIL import Image
 
+import os
+
 #import rds_db as db
   
 
@@ -71,9 +73,27 @@ def upload_image():
         buf = io.BytesIO(im_binary)
         img = Image.open(buf)
 
-        img.save("./images/converted.png", format="png")
-        return render_template('upload_image.html')
+        img.save("./static/images/farImg.png", format="png")
 
+        context = dict()
+        context['message'] = "Successfully uploaded - Go to next page -  Just a message"
+        return render_template('upload_image.html', content = context)
+
+
+@app.route('/blur', methods=['GET', 'POST'])
+def blur_image():
+    if request.method == 'GET':
+        if not os.path.exists('./static/images/blurs/1.png') or not os.path.exists('./static/images/blurs/2.png') or not os.path.exists('./static/images/blurs/3.png'):
+            # generate blurred and save - Check if farImg is present
+            baseImg = cv2.imread('./static/images/farImg.png')
+            iterImg = baseImg
+
+            # Blurs
+            for i in range(3):
+                bluri = blurAndSave(iterImg, i+1)
+                iterImg = bluri
+
+        return render_template('blur.html')
 
 # main driver function
 if __name__ == '__main__':
@@ -83,4 +103,7 @@ if __name__ == '__main__':
 # if __name__ == "__main__":
 #     app.run(ssl_context='adhoc')
 
-
+def blurAndSave(img, i):
+    blur = cv2.blur(img, (i*i, i*i))
+    cv2.imwrite(f'./static/images/blurs/{i}.png', blur)
+    return blur
