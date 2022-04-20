@@ -1,6 +1,5 @@
 
 from flask import Flask, render_template, request, redirect, url_for
-from matplotlib.style import context
 
 import cv2
 import numpy as np
@@ -62,7 +61,6 @@ def signup_page():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_image():
-    context = dict()
     if request.method == 'GET':
         return render_template('upload_image.html')
     if request.method == 'POST':
@@ -74,14 +72,7 @@ def upload_image():
         img = Image.open(buf)
 
         img.save("./images/converted.png", format="png")
-        context['message'] = "Image upload successful!"
-        
-        return render_template('blur_image.html', context=context)
-
-@app.route('/blur_images', methods=['GET', 'POST'])
-def blur_images():
-    if request.method == 'GET':
-        return render_template('blur_images.html')
+        return render_template('upload_image.html')
 
 
 # main driver function
