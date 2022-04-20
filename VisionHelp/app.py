@@ -1,5 +1,14 @@
 
 from flask import Flask, render_template, request, redirect, url_for
+from matplotlib.style import context
+
+import cv2
+import numpy as np
+
+import base64
+import io
+from PIL import Image
+
 #import rds_db as db
   
 
@@ -51,6 +60,36 @@ def signup_page():
         return render_template('landing.html', variable=username)
     return render_template('signup.html')
 
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_image():
+    context = dict()
+    if request.method == 'GET':
+        return render_template('upload_image.html')
+    if request.method == 'POST':
+        img_bs64 = request.form['canvas_datauri'].split(',')[1]
+        # print(request.form['canvas_datauri'][:40].split(',')[1])
+
+        im_binary = base64.b64decode(img_bs64)
+        buf = io.BytesIO(im_binary)
+        img = Image.open(buf)
+
+        img.save("./images/converted.png", format="png")
+        context['message'] = "Image upload successful!"
+        
+        return render_template('blur_image.html', context=context)
+
+@app.route('/blur_images', methods=['GET', 'POST'])
+def blur_images():
+    if request.method == 'GET':
+        return render_template('blur_images.html')
+
+
 # main driver function
 if __name__ == '__main__':
     app.run()
+    
+
+# if __name__ == "__main__":
+#     app.run(ssl_context='adhoc')
+
+
