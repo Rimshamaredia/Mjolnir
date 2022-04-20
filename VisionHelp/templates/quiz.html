@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {
+  font-size: 14px;
+}
+h1,
+h2 {
+  transition: font-size 200ms; /* animate font size changes */
+}
+h1 {
+  font-size: 2em; /* h1 element is 2x body font size */
+}
+h2 {
+  font-size: 1.5em; /* h1 element is 1.5x body font size */
+}
+</style>
+</head>
+<body>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <h1>Please click on next to get started</h1>
+  <h1 id="one"></h1>
+  <button id="next">next +</button>
+  <button id="prev">prev -</button>
+  <input type="number" id="myNumber">
+  <button id="check">Submit</button>
+  <p id="results"></p>
+
+</body>
+<script type="text/javascript">
+    var fntsz = 0;
+    var vision;
+    var dict = { 152: "20/60", 130: "20/50", 108: "20/40", 87: "20/30", 65: "20/20", 33: "15/20", 21: "10/20", 15:"7/20",9:"4/20" }
+  $(document).ready(function() {
+    var vals = [152,130,108,87,65,33,21,15,9];
+    vals.reverse();
+  $('#next, #prev').on('click', function() { // click to increase or decrease
+    var btn = $(this),
+      fontSize = parseInt(window.getComputedStyle(document.body, null).fontSize, 0); // parse the body font size as a number
+    if (btn[0].id === "next") { // detect the button being clicked
+      //fontSize = vals.pop(); // increase the base font size
+      fontSize = vals.pop();
+      console.log(dict[fontSize])
+      fntsz = dict[fontSize];
+      vision = dict[fontSize];
+    } else if(btn[0].id == "prev") {
+      fontSize --; // or decrease
+      console.log(fontSize)
+    }
+    temp = document.getElementById("one");
+    temp.style.fontSize = fontSize + 'pt';
+    temp.innerHTML = Math.floor(Math.random() * 10);
+  });
+
+   $('#check').on('click',function(){
+     var curr = document.getElementById("myNumber").value;
+     console.log(document.getElementById("one").innerText);
+     if(curr == parseInt(document.getElementById("one").innerText)){
+       //console.log(curr.style.fontSize)
+       if(vision == "20/20"){
+         document.getElementById("results").innerHTML = 'Normal Vision';
+       }else{
+         document.getElementById("results").innerHTML = 'Click next to check next number';
+       }
+       // console.log(vision);
+       // document.getElementById("results").innerHTML = 'Correct';
+     }else{
+       document.getElementById("results").innerHTML ='Vision issue of myopia by ' + vision
+     }
+   });
+});
+
+</script>
+</html>
