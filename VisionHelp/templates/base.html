@@ -16,6 +16,38 @@
         padding-left: 50px !important;
         padding-right: 50px !important;
     }
+    * { box-sizing: border-box; }
+
+    #content {
+      background-color: rgba(210, 210, 210, 0.5);
+      border: 1px solid #000;
+      padding: 0.5rem;
+      display: flex;
+      transform: translate(0,100px)
+
+    }
+
+    #left{
+      background-color: #d55e00;
+      border: 1px solid #fff;
+      padding: 0.5rem;
+      flex-grow: 2;
+      color: #fff;
+      height: 700px
+    }
+    #right {
+      background-color: #0072b2;
+      border: 1px solid #fff;
+      padding: 0.5rem;
+      flex-grow: 1;
+      color: #fff;
+      height: 700px
+    }
+    #link-list{
+      color:black
+    }
+    a:link    { color: red }    /* unvisited links */
+    a:hover   { color: yellow } /* user hovers     */
 
    
   </style>
