@@ -23,6 +23,13 @@ def userInfo():
 def display_inst():
     return render_template('Instructions.html')
 
+@app.route('/testchoice')
+def display_test_choices():
+    return render_template('testChoice.html')
+
+@app.route("/hypermetropia")
+def display_hypeprmetropia():
+    return render_template("hypermetropia.html")
 #@app.route('/')
 #def home_page():
 #    return render_template('home_page.html')
