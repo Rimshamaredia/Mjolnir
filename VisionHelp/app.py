@@ -23,9 +23,10 @@ def userInfo():
 def display_inst():
     return render_template('Instructions.html')
 
-@app.route('/myopia')
+@app.route('/Hypermetropia')
 def myopia_quiz():
-    return render_template('quiz.html')
+    return render_template('Hypermetropia.html')
+    
 @app.route('/testchoice')
 def display_test_choices():
     return render_template('testChoice.html')
