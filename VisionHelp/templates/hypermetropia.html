@@ -1,0 +1,87 @@
+{%extends "base.html" %}
+{%block content%}
+
+<div className = "Test-choice-select">
+    <div id="content">
+        <div id="left">
+            <div className="header">
+                <H2> Farsightedness / Hypermetropia</H2>
+            </div>
+ 
+            <!-- img element without src attribute -->
+            <div>
+                <div id="text-for-hypermetropia" style="font-size: 30px">
+                    E   
+                </div>
+            </div>
+
+            <form id="form" onsubmit="return false;">
+                <input type="text" id="answer-input" style="background-color:black;"/>
+                <input id ="answer-submit" type="submit" onclick="getNextImage()" />
+            </form>
+     
+        <script>
+
+            function getCurrFontSize(){
+                var el = document.getElementById('text-for-hypermetropia');
+                var style = window.getComputedStyle(el, null).getPropertyValue('font-size');
+                var fontSize = parseFloat(style);
+                return fontSize;
+            }
+
+            function calculateNewFontSize(oldFontSize){
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                var text = possible.charAt(Math.floor(Math.random() * possible.length));
+                var ansText = document.getElementById("answer-input").value;
+                var actualText = document.getElementById('text-for-hypermetropia').textContent;
+                const noWhitespace = actualText.replace(/\s/g, '')
+                var flag = true;
+
+                if (ansText == noWhitespace){
+                    oldFontSize -= 5
+                }
+                else{
+                    oldFontSize += 5
+                    flag = false
+                }
+                return [oldFontSize, flag, text]
+            }
+            function getNextImage() {
+                var currSize = getCurrFontSize()
+                var arr = calculateNewFontSize(currSize);
+                var ansText = document.getElementById("answer-input");
+                var newSize = arr[0]
+                var check = arr[1]
+                var newText = arr[2]
+                console.log(currSize, newSize, check, newText)
+                if (check === true){
+                    var el = document.getElementById('text-for-hypermetropia');
+                    el.innerHTML = newText;
+                    el.style.fontSize = newSize + "px";
+                    ansText.value = '';
+                }
+                else{
+                    console.log("error")
+                }
+
+            }
+        </script>
+        </div>
+      
+        <div id="right">
+            <div className="header">
+                <H2> General FAQ and Information Links</H2>
+            </div>
+            <ul id="link-list">
+                <li><a href="#">Link 1</a></li>
+                <li><a href="#">Link 2</a></li>
+                <li><a href="#">Link 3</a></li>
+                <li><a href="#">Link 4</a></li>
+            </ul>
+        </div>
+      </div>
+      
+</div>
+
+
+{% endblock %}
