@@ -32,7 +32,8 @@
       console.log(dict[fontSize])
       fntsz = dict[fontSize];
       vision = dict[fontSize];
-      var curr = document.getElementById("myNumber").value;
+      var curr = document.getElementById("myNumber");
+      curr.value = ""
       console.log(document.getElementById("one").innerText);
       if(curr == parseInt(document.getElementById("one").innerText)){
         //console.log(curr.style.fontSize)
