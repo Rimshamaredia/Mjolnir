@@ -11,7 +11,7 @@ from PIL import Image
 import os
 
 #import rds_db as db
-  
+
 
 app = Flask(__name__)
 
@@ -23,6 +23,10 @@ def userInfo():
 def display_inst():
     return render_template('Instructions.html')
 
+@app.route('/Hypermetropia')
+def myopia_quiz():
+    return render_template('Hypermetropia.html')
+    
 @app.route('/testchoice')
 def display_test_choices():
     return render_template('testChoice.html')
@@ -105,7 +109,7 @@ def blur_image():
 # main driver function
 if __name__ == '__main__':
     app.run()
-    
+
 
 # if __name__ == "__main__":
 #     app.run(ssl_context='adhoc')

@@ -1,0 +1,58 @@
+
+{%extends "base.html" %}
+{%block content%}
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <h1>Please click on next to get started</h1>
+  <h1 id="one"></h1>
+  <button id="start">START</button>
+  <input type="number" id="myNumber">
+  <button id="next">Submit</button>
+
+  <p id="results"></p>
+<script type="text/javascript">
+    var fntsz;
+    var vision ="20/60";
+    //dict to keep track of dict to its
+    var dict = {130: "20/50", 108: "20/40", 87: "20/30", 65: "20/20", 33: "15/20", 21: "10/20", 15:"7/20",9:"4/20" }
+    var dipter = {150: "-1.25",130:"-1.00",108:"-0.75",87:"-0.50",65:"Normal",33:"Super Normal"}
+  $(document).ready(function() {
+    var vals = [130,108,87,65,33,21,15,9];
+    vals.reverse();
+    $('#start').on('click',function(){
+      temp = document.getElementById("one");
+      temp.style.fontSize = 152 + 'pt';
+      temp.innerHTML = Math.floor(Math.random() * 10);
+      document.getElementById("start").innerHTML = 'START AGAIN';
+    });
+  $('#next').on('click', function() { // click to move next size
+    var btn = $(this),
+      fontSize = parseInt(window.getComputedStyle(document.body, null).fontSize, 0); // parse the body font size as a number
+    if (btn[0].id === "next") { // detect the button being clicked
+      fontSize = vals.pop();
+      console.log(dict[fontSize])
+      fntsz = dict[fontSize];
+      vision = dict[fontSize];
+      var curr = document.getElementById("myNumber");
+      curr.value = ""
+      console.log(document.getElementById("one").innerText);
+      if(curr == parseInt(document.getElementById("one").innerText)){
+        //console.log(curr.style.fontSize)
+        if(vision == "20/20"){
+          document.getElementById("results").innerHTML = 'Normal Vision';
+        }else{
+          document.getElementById("results").innerHTML = 'Correct';
+        }
+      }else{
+        document.getElementById("results").innerHTML ='Vision issue of myopia by ' + vision + ' level and approx diopter is ' + dipter[fontSize]
+      }
+    }
+    temp = document.getElementById("one");
+    temp.style.fontSize = fontSize + 'pt';
+    temp.innerHTML = Math.floor(Math.random() * 10);
+  });
+
+
+});
+
+</script>
+{%endblock%}
