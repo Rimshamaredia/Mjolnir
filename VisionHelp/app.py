@@ -26,6 +26,13 @@ def display_inst():
 @app.route('/myopia')
 def myopia_quiz():
     return render_template('quiz.html')
+@app.route('/testchoice')
+def display_test_choices():
+    return render_template('testChoice.html')
+
+@app.route("/hypermetropia")
+def display_hypeprmetropia():
+    return render_template("hypermetropia.html")
 #@app.route('/')
 #def home_page():
 #    return render_template('home_page.html')
