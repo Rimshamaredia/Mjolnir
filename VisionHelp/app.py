@@ -10,14 +10,26 @@ from PIL import Image
 
 import os
 
-#import rds_db as db
+import rds_db as db
 
 
 app = Flask(__name__)
 
-@app.route('/')
-def userInfo():
-    return render_template('UserInfo.html')
+@app.route('/', methods=['GET', 'POST'])
+def user_info():
+    if request.method == 'POST':
+        _email = request.form['email']
+        _first_name = request.form['fname']
+        _last_name = request.form['lname']
+        _gender = request.form['gender']
+        _age = request.form['age']
+        _ocular_hist = request.form.getlist('ocular')
+        _medical_hist = request.form.getlist('medical')
+        #print('%s %s %s %s %s %s %s', _email, _first_name,_last_name,_age,_gender,_medical_hist,_ocular_hist)
+        user_id = db.insert_user_info(_email, _first_name, _last_name, _gender, _age, str(_ocular_hist), str(_medical_hist))
+        return render_template('Instructions.html')
+    
+    return render_template('Userinfo.html')
 
 @app.route('/instructions')
 def display_inst():
@@ -34,43 +46,7 @@ def display_test_choices():
 @app.route("/hypermetropia")
 def display_hypeprmetropia():
     return render_template("hypermetropia.html")
-#@app.route('/')
-#def home_page():
-#    return render_template('home_page.html')
 
-#@app.route('/login', methods=['GET', 'POST'])
-def login_page():
-    global username
-    # if we get a form request to log in
-    if request.method == 'POST':
-        username = request.form['Username']
-        password = request.form['password']
-        try:
-            user_id = db.get_user(username, password)
-            print("user logged in succesesfully")
-            # if valid user_id, reroute to landing page of user
-            # return render_template('landing.html',variable=username)
-            return render_template('landing.html',variable=username)
-        except Exception as e:
-            return render_template('login.html', var=e)
-    return render_template('login.html')
-
-#@app.route('/signup', methods=['GET', 'POST'])
-def signup_page():
-    # if we get a form request to sign up
-    global username
-    if request.method == 'POST':
-        username = request.form['Username']
-        email = request.form['email']
-        password = request.form['password']
-        confirm_password = request.form['password2']
-        # call db function
-        try:
-            user_id = db.insert_new_user(username, email, password, confirm_password)
-        except Exception as e:
-            return render_template('signup.html', var=e)
-        return render_template('landing.html', variable=username)
-    return render_template('signup.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_image():
@@ -141,11 +117,12 @@ def blur_image():
     if request.method == 'POST':
         # Write method to post the selected range -> Present in content or url can be used to as in get method
         # Expect the doctor to have a mapping with the blurvals
-        print(request)
+        #print(request)
         print(request.form)
         context = dict()
         context['status'] = "True"
-
+        blur_range = request.form['blur_range']
+        print(blur_range)
         return render_template('blur.html', content=context)
 
 # main driver function
