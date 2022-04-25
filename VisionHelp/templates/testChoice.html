@@ -1,14 +1,15 @@
-{%extends "base.html" %}
+{%extends "base2.html" %}
 {%block content%}
 
 <div className = "Test-choice-select">
     <div id="content">
         <div id="left">
-            <div className="header" style="text-align:center;">
+            <div className="header" style="text-align:center; padding-bottom:30px;">
                 <H1> Type of Test</H1>
             </div>
-            <div style="font-size:25px;">
-            <div class="form-check">
+            <div class= "d-flex justify-content-center" style="font-size:25px;">
+              <div>
+                <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault-myopia" checked>
                 <label class="form-check-label" for="flexRadioDefault-myopia" >
                   Shortsightedness / Myopia
@@ -33,22 +34,27 @@
                 </label>
               </div>
               </div>
-            <div class="text-center" style="padding-top: 20px;">
+              </div>
+            <div class="text-center" style="padding-top: 50px;">
                 <button type="submit" class="btn btn-primary btn-lg" style="background-color:#233b43 !important ;">Submit</button>
             </div>
         </div>
       
         <div id="right">
-            <div className="header"  style="text-align:center;">
-                <H1> General FAQ and Information Links</H1>
-            </div>
-            <ul id="link-list" style="font-size:25px;">
-                <li><a href="#">Link 1</a></li>
-                <li><a href="#">Link 2</a></li>
-                <li><a href="#">Link 3</a></li>
-                <li><a href="#">Link 4</a></li>
-            </ul>
-        </div>
+          <div class="container" style="padding-top:70px;padding-left:auto;padding-right:auto;">
+            <div class="faq"><h1> General FAQ and Information Links</h1></div> 
+            <div style="text-align:-webkit-center;">
+          <div class="card" style="width: 40rem;">
+             
+        <ul class="list-group list-group-flush" style="align-content: center;">
+          <li class="list-group-item"><a href="#">Link 1</a></li>
+          <li class="list-group-item"><a href="#">Link 2</a></li>
+          <li class="list-group-item"><a href="#">Link 3</a></li>
+           
+        </ul>
+          </div> 
+        </div>   
+      </div>
       </div>
       
 </div>
