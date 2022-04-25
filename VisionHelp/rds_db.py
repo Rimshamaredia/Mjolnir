@@ -23,7 +23,7 @@ conn = pymysql.connect(
 #create_table = """CREATE TABLE IF NOT EXISTS UserInfo (user_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, email VARCHAR(255) DEFAULT NULL, first_name VARCHAR(255), last_name VARCHAR(255), age FLOAT(24), gender VARCHAR(10), ochistory VARCHAR(255), medhistory VARCHAR(255), hypermetropia_level VARCHAR(10), hypermetropia_diopter float(24))"""
 #cursor.execute(create_table)
 
-# insert new user info
+# insert new user info or update existing info
 # exceptions:
 # return: user id if successful
 def insert_user_info(email, fname, lname, gender, age, ochistory, medhistory):
@@ -31,12 +31,14 @@ def insert_user_info(email, fname, lname, gender, age, ochistory, medhistory):
     with conn.cursor() as curr:
         # check if username already exists
         email = email.lower()
-        #curr.execute("SELECT * FROM Users WHERE email = %s", (email))
-        #user_details = curr.fetchone()
-        #if user_details: # if username already in use, return -2
-        #    raise Exception('Email already in use')
-        #update existing record: TO DO
-
+        #update existing record
+        curr.execute("SELECT * FROM UserInfo WHERE email = %s", (email))
+        user_details = curr.fetchone()
+        if user_details: # if username already in use
+            curr.execute("UPDATE UserInfo SET first_name = %s, last_name = %s, age = %s, gender = %s, ochistory=%s, medhistory=%s WHERE email=%s",  (fname, lname, age, gender, ochistory, medhistory, email))
+            conn.commit()
+            return user_details[0]
+        
         # otherwise, add new user
         curr.execute("INSERT INTO UserInfo (email, first_name, last_name, age, gender, ochistory, medhistory) VALUES (%s, %s, %s, %s, %s, %s, %s)",  (email, fname, lname, age, gender, ochistory, medhistory))
         conn.commit()
@@ -47,8 +49,35 @@ def insert_user_info(email, fname, lname, gender, age, ochistory, medhistory):
     # if connection failed return false
     # return False
 
-#def update_user_info(email)
-#{}
+def update_user_info_hyper(email, hypermet_level, hypermet_diop):
+    with conn.cursor() as curr:
+        email = email.lower()
+        curr.execute("SELECT * FROM UserInfo WHERE email = %s", (email))
+        user_details = curr.fetchone()
+        if not user_details: 
+            curr.execute("INSERT INTO UserInfo (email) VALUES (%s)", (email))
+            conn.commit()
+        curr.execute("UPDATE UserInfo SET hypermetropia_level=%s, hypermetropia_diopter=%s WHERE email=%s",  (hypermet_level, hypermet_diop, email))
+        conn.commit()
+        # now get user email to return
+        curr.execute("SELECT email FROM UserInfo WHERE email = %s", (email))
+        new_user = curr.fetchone()
+        return new_user[0]
+
+def update_user_info_myop(email, myop_blur_idx):
+    with conn.cursor() as curr:
+        email = email.lower()
+        curr.execute("SELECT * FROM UserInfo WHERE email = %s", (email))
+        user_details = curr.fetchone()
+        if not user_details: 
+            curr.execute("INSERT INTO UserInfo (email) VALUES (%s)", (email))
+            conn.commit()
+        curr.execute("UPDATE UserInfo SET myopia_blur_idx=%s WHERE email=%s",  (myop_blur_idx, email))
+        conn.commit()
+        # now get user email to return
+        curr.execute("SELECT email FROM UserInfo WHERE email = %s", (email))
+        new_user = curr.fetchone()
+        return new_user[0]
 
 # verify record given email id
 # exceptions: user does not exist
