@@ -20,57 +20,54 @@ conn = pymysql.connect(
 
 # create table if not already existing (no encryption)
 #cursor = conn.cursor()
-#create_table = """CREATE TABLE IF NOT EXISTS Users (user_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, username VARCHAR(31) DEFAULT NULL, email VARCHAR(255) DEFAULT NULL, pswd VARCHAR(255) DEFAULT NULL)"""
+#create_table = """CREATE TABLE IF NOT EXISTS UserInfo (user_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, email VARCHAR(255) DEFAULT NULL, first_name VARCHAR(255), last_name VARCHAR(255), age FLOAT(24), gender VARCHAR(10), ochistory VARCHAR(255), medhistory VARCHAR(255), hypermetropia_level VARCHAR(10), hypermetropia_diopter float(24))"""
 #cursor.execute(create_table)
 
-"""
-Iteration 1: User account functions
-"""
-
-# insert new user (no ecryption)
-# exceptions: passwords do not match, username already exists
+# insert new user info
+# exceptions:
 # return: user id if successful
-def insert_new_user(username, email, password, password_verify):
-    # if passwords do not match, return false
-    if password != password_verify:
-        raise Exception('Passwords do not match')
+def insert_user_info(email, fname, lname, gender, age, ochistory, medhistory):
     # check if username already exists or insert new user account
     with conn.cursor() as curr:
         # check if username already exists
-        curr.execute("SELECT * FROM Users WHERE username = %s", (username))
-        user_details = curr.fetchone()
-        if user_details: # if username already in use, return -2
-            raise Exception('Username already in use')
+        email = email.lower()
+        #curr.execute("SELECT * FROM Users WHERE email = %s", (email))
+        #user_details = curr.fetchone()
+        #if user_details: # if username already in use, return -2
+        #    raise Exception('Email already in use')
+        #update existing record: TO DO
+
         # otherwise, add new user
-        curr.execute("INSERT INTO Users (username, email, pswd) VALUES (%s, %s, %s)",  (username, email, password))
+        curr.execute("INSERT INTO UserInfo (email, first_name, last_name, age, gender, ochistory, medhistory) VALUES (%s, %s, %s, %s, %s, %s, %s)",  (email, fname, lname, age, gender, ochistory, medhistory))
         conn.commit()
         # now get user ID to return
-        curr.execute("SELECT user_id FROM Users WHERE username = %s", (username))
+        curr.execute("SELECT email FROM UserInfo WHERE email = %s", (email))
         new_user = curr.fetchone()
-        return int(new_user[0])
+        return new_user[0]
     # if connection failed return false
     # return False
 
-# verify login info given username/password
-# exceptions: user does not exist, password incorrect
-# return: user id if valid
-def get_user(username, password):
+#def update_user_info(email)
+#{}
+
+# verify record given email id
+# exceptions: user does not exist
+# return: email if valid
+def get_user(email):
     with conn.cursor() as curr:
         # run query and get results
-        curr.execute("SELECT user_id, pswd FROM Users WHERE username = %s", (username))
+        curr.execute("SELECT * FROM UserInfo WHERE email = %s", (email))
         user_details = curr.fetchone()
         # details is now a map of schema names to values
         # check if row exists or password doesn't match what's in mySQL
         if not user_details:
             raise Exception('Username does not exist')
-        elif user_details[1] != password:
-            raise Exception('Incorrect password')
         else:
             return user_details[0]
 
 def get_user_list():
     with conn.cursor() as curr:
-        curr.execute("SELECT * FROM Users")
+        curr.execute("SELECT * FROM UserInfo")
         user_list = curr.fetchall()
 
         return user_list
