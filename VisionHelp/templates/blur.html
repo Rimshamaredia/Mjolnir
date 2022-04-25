@@ -11,31 +11,58 @@
 
 <body>
     <div class="container">
+        {% if content['status'] == "True"%}
         <div class="jumbotron jumbotron-fluid">
             <h1>What do you see?</h1>
+            <h2>Click the images to fine tune</h2>
         </div>
 
         <table class="table">
             <tr class="row">
                 <td class="col-sm">
-                    <label for="original">Original:</label>
-                    <img src="/static/images/farImg.png" alt="" class="rounded">
+                    <label for="original">Original: (Return to base)</label>
+                    <a href="/blur">
+                        <img src="/static/images/farImg.png" alt="" class="rounded">
+                    </a>
                 </td>
                 <td class="col-sm">
-                    <label for="blur1">Blur 1:</label>
-                    <img src="/static/images/blurs/1.png" alt="" class="rounded">
+                    <label for="blur1">Blur 1: (Decrease Blurs)</label>
+                    <a href="/blur?blurVal={{content['i_s'][0]}}">
+                        <img src="/static/images/blurs/{{content['i_s'][0]}}.png" alt="" class="rounded">
+                    </a>
                 </td>
             </tr>
             <tr class="row">
                 <td class="col-sm">
-                    <label for="blur2">Blur 2:</label>
-                    <img src="/static/images/blurs/2.png" alt="" class="rounded">
+                    <label for="blur2">Blur 2: (Get Blurs around)</label>
+                    <a href="/blur?blurVal={{content['i_s'][1]}}">
+                        <img src="/static/images/blurs/{{content['i_s'][1]}}.png" alt="" class="rounded">
+                    </a>
                 </td>
                 <td class="col-sm">
-                    <label for="blur3">Blur 3:</label>
-                    <img src="/static/images/blurs/3.png" alt="" class="rounded">
+                    <label for="blur3">Blur 3: (Increase Blur)</label>
+                    <a href="/blur?blurVal={{content['i_s'][2]}}">
+                        <img src="/static/images/blurs/{{content['i_s'][2]}}.png" alt="" class="rounded">
+                    </a>
                 </td>
             </tr>
-        </div>
+
+            {% if content['i_s'][0] == 0%}
+            <div class="alert alert-success">
+                You've got a Perfect Vision
+            </div>
+            {% elif content['i_s'][2] >= 20%}
+            <div class="alert alert-danger">
+                You should visit an eye doctor
+            </div>
+            {% endif %}
+
+            {%else%}
+            <div>
+                <button class="btn btn-warning" onclick="location.href='/upload'">Capture Image</button>
+                <h2>Come back to this page once uploaded</h2>
+            </div>
+            {%endif%}
     </div>
+
 </body>

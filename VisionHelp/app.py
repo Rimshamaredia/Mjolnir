@@ -94,15 +94,52 @@ def upload_image():
 @app.route('/blur', methods=['GET', 'POST'])
 def blur_image():
     if request.method == 'GET':
-        if not os.path.exists('./static/images/blurs/1.png') or not os.path.exists('./static/images/blurs/2.png') or not os.path.exists('./static/images/blurs/3.png'):
-            # generate blurred and save - Check if farImg is present
-            baseImg = cv2.imread('./static/images/farImg.png')
-            iterImg = baseImg
-
-            # Blurs
+        # generate blurred and save - Check if farImg is present
+        if not os.path.exists('./static/images/farImg.png'):
+            context = dict()
+            context['status'] = "False"
+            return render_template('blur.html', content=context)
+        
+        blurVal = request.args.to_dict().get('blurVal', None)
+        baseImg = cv2.imread('./static/images/farImg.png')
+        i_s = []
+        
+        if blurVal == None:
             for i in range(3):
-                bluri = blurAndSave(iterImg, i+1)
-                iterImg = bluri
+                i_s_ = (i+2)**2
+                blurAndSave(baseImg, i_s_)
+                i_s.append(i_s_)
+            context = dict()
+            context['i_s'] = i_s
+        else: 
+            # Blurs by blurVal
+            blurVal = int(blurVal)
+            if blurVal == 0:
+                blurAndSave(baseImg, blurVal)
+                i_s.append(0)
+            else:
+                i_s_ = blurVal - 1
+                blurAndSave(baseImg, i_s_)
+                i_s.append(i_s_)
+
+            i_s_ = blurVal
+            blurAndSave(baseImg, i_s_)
+            i_s.append(i_s_)
+
+            i_s_ = blurVal + 1
+            blurAndSave(baseImg, i_s_)
+            i_s.append(i_s_)
+
+            context = dict()
+            context['i_s'] = i_s
+        
+        context['status'] = "True"
+        return render_template('blur.html', content=context)
+
+
+
+    if request.method == 'POST':
+        # Write method to post the selected range -> Present in content or url can be used to as in get method
 
         return render_template('blur.html')
 
@@ -115,6 +152,9 @@ if __name__ == '__main__':
 #     app.run(ssl_context='adhoc')
 
 def blurAndSave(img, i):
-    blur = cv2.blur(img, (i*i, i*i))
+    if i  == 0:
+        blur = img
+    else:
+        blur = cv2.blur(img, (i, i))
     cv2.imwrite(f'./static/images/blurs/{i}.png', blur)
     return blur

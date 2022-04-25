@@ -1,6 +1,15 @@
 {%extends "base.html" %}
 {%block content%}
   <center>
+
+    {% if content %}
+    <div class="alert alert-success">
+      {{content['message']}}
+    </div>
+    <div>
+      <button class="btn btn-primary" onclick="location.href='/blur'">Check your sight</button>
+    </div>
+    {% else %}
     <div class="container">
       <div class="jumbotron jumbotron-fluid">
         <h1>Take a snap</h1>
@@ -12,11 +21,6 @@
         <button class="btn btn-primary" id="capture" style="font-size:25px;">Capture/Retake Image</button>
       </div>
 
-      {% if content %}
-      <div class="alert alert-success">
-        {{content['message']}}
-      </div>
-      {% endif %}
 
       <form action="" method="post">
         <canvas id="canvas"></canvas>
@@ -27,5 +31,7 @@
       </form>
 
     </div>
+
+    {% endif %}
   </center>
   {% endblock %}
