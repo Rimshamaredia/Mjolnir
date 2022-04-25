@@ -7,7 +7,6 @@
     background-color:indianred;
 
 }
-    }
 </style>
 <div class="container" style="padding-top:20px;">
      <h2 id="one" style="text-align: center;"></h2>
@@ -71,19 +70,21 @@
       console.log(dict[fontSize])
       fntsz = dict[fontSize];
       vision = dict[fontSize];
-      var curr = document.getElementById("myNumber");
-      curr.value = ""
-      console.log(document.getElementById("one").innerText);
+      var curr = document.getElementById("myNumber").value;
+      // curr.value = ""
+      console.log(document.getElementById("one").innerText + " "+ curr);
       if(curr == parseInt(document.getElementById("one").innerText)){
         //console.log(curr.style.fontSize)
         if(vision == "20/20"){
           document.getElementById("results").innerHTML = 'Normal Vision';
+
         }else{
           document.getElementById("results").innerHTML = 'Correct';
         }
       }else{
         document.getElementById("results").innerHTML ='Vision issue of myopia by ' + vision + ' level and approx diopter is ' + dipter[fontSize]
       }
+      document.getElementById("myNumber").value = "";
     }
     temp = document.getElementById("one");
     temp.style.fontSize = fontSize + 'pt';
