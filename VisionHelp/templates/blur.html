@@ -1,5 +1,6 @@
 {%extends "base.html" %}
 {%block content%}
+
 <body>
     <div class="container">
         {% if content['status'] == "True"%}
@@ -11,7 +12,8 @@
         <table class="table">
             <tr class="row">
                 <td class="col-sm">
-                    <label for="original" style="font-size: medium;">Original: Use this as a reference to compare your sight with</label>
+                    <label for="original" style="font-size: medium;">Original: Use this as a reference to compare your
+                        sight with</label>
                     <a href="/blur">
                         <img src="/static/images/farImg.png" alt="" class="rounded">
                     </a>
@@ -37,23 +39,37 @@
                     </a>
                 </td>
             </tr>
+        </table>
 
-            {% if content['i_s'][0] == 0%}
-            <div class="alert alert-success">
-                You've got a Perfect Vision
-            </div>
-            {% elif content['i_s'][2] >= 20%}
-            <div class="alert alert-danger">
-                You should visit an eye doctor
-            </div>
-            {% endif %}
+        <div class="form-group">
+            <p style="font-size: medium;">Satisfied with the blur range? Store your reports</p>
+            <form action="" method="post">
+                <input type="text" value="{{content['i_s'][0]}} to {{content['i_s'][2]}}" name="blur_range" hidden></input>
+                <label for="email" style="font-size: medium;">Enter your email id to submit reports / store your
+                    data</label>
+                <input type="text" class="form-control" id="email" name="email"></input>
+                <button type="submit" class="btn btn-success" style="font-size: medium;">Store Record</button>
+            </form>
 
-            {%else%}
-            <div>
-                <button class="btn btn-warning" onclick="location.href='/upload'">Capture Image</button>
-                <h2>Come back to this page once uploaded</h2>
-            </div>
-            {%endif%}
+        </div>
+
+        {% if content['i_s'][0] == 0%}
+        <div class="alert alert-success">
+            You've got a Perfect Vision
+        </div>
+        {% elif content['i_s'][2] >= 20%}
+        <div class="alert alert-danger">
+            You should visit an eye doctor
+        </div>
+        {% endif %}
+
+        {%else%}
+        <div>
+            <button class="btn btn-warning" onclick="location.href='/upload'">Capture Image</button>
+            <h2>Come back to this page once uploaded</h2>
+        </div>
+        {%endif%}
+
     </div>
 
 </body>
