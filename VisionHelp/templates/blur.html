@@ -1,32 +1,23 @@
-<head>
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
-
-</head>
-
+{%extends "base.html" %}
+{%block content%}
 <body>
     <div class="container">
         {% if content['status'] == "True"%}
         <div class="jumbotron jumbotron-fluid">
-            <h1>What do you see?</h1>
-            <h2>Click the images to fine tune</h2>
+            <h1>How do you see the place in front of you?</h1>
+            <h2>Click the images below to fine tune to your vision</h2>
         </div>
 
         <table class="table">
             <tr class="row">
                 <td class="col-sm">
-                    <label for="original">Original: (Return to base)</label>
+                    <label for="original" style="font-size: medium;">Original: Use this as a reference to compare your sight with</label>
                     <a href="/blur">
                         <img src="/static/images/farImg.png" alt="" class="rounded">
                     </a>
                 </td>
                 <td class="col-sm">
-                    <label for="blur1">Blur 1: (Decrease Blurs)</label>
+                    <label for="blur1" style="font-size: medium;">Blur 1: I can see clearer</label>
                     <a href="/blur?blurVal={{content['i_s'][0]}}">
                         <img src="/static/images/blurs/{{content['i_s'][0]}}.png" alt="" class="rounded">
                     </a>
@@ -34,13 +25,13 @@
             </tr>
             <tr class="row">
                 <td class="col-sm">
-                    <label for="blur2">Blur 2: (Get Blurs around)</label>
+                    <label for="blur2" style="font-size: medium;">Blur 2: Get me images around this range</label>
                     <a href="/blur?blurVal={{content['i_s'][1]}}">
                         <img src="/static/images/blurs/{{content['i_s'][1]}}.png" alt="" class="rounded">
                     </a>
                 </td>
                 <td class="col-sm">
-                    <label for="blur3">Blur 3: (Increase Blur)</label>
+                    <label for="blur3" style="font-size: medium;">Blur 3: Increase the blurs a bit more</label>
                     <a href="/blur?blurVal={{content['i_s'][2]}}">
                         <img src="/static/images/blurs/{{content['i_s'][2]}}.png" alt="" class="rounded">
                     </a>
@@ -66,3 +57,4 @@
     </div>
 
 </body>
+{%endblock%}

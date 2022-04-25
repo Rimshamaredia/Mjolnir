@@ -87,7 +87,7 @@ def upload_image():
         img.save("./static/images/farImg.png", format="png")
 
         context = dict()
-        context['message'] = "Successfully uploaded - Go to next page -  Just a message"
+        context['message'] = "The image was uploaded successfully"
         return render_template('upload_image.html', content = context)
 
 
