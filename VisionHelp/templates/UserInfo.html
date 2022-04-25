@@ -22,59 +22,95 @@
 <div class="container-block">
     <!-- https://colorswall.com/palette/179956 -->
 
-    <form class="row g-3" style="min-width: 1200px; transform: translate(180px,0);">
+    <form class="row g-3" style="min-width: 1200px; transform: translate(180px,0);" id="userinfo_form" action="{{ url_for('user_info') }}"  method="post">
+      <div class="col-md-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="text" class="form-control" id="email" name="email" required>
+      </div>
          <div class="col-md-3">
             <label for="name" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="name">
+            <input type="text" class="form-control" id="fname" name="fname" required>
           </div>
           <div class="col-md-3">
             <label for="name" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="name">
+            <input type="text" class="form-control" id="lname" name="lname" required>
           </div>
           <div class="col-md-2">
             <label for="gender" class="form-label">Gender</label>
-            <select id="gender" class="form-select">
-              <option >Male</option>
-              <option >Female</option>
+            <select id="gender" class="form-select" name ="gender">
+              <option>Male</option>
+              <option>Female</option>
             </select>
           </div>
           <div class="row g-3">
           <div class="col-md-2">
             <label for="age" class="form-label">Age</label>
-            <input type="number" class="form-control" id="age">
+            <input type="number" class="form-control" id="age" name="age" min="1" max="100" required>
             </div>
         </div>
-            <div class="row g-3"></div>
+            <div class="row g-3">
             <label ><h3>Case History :</h3></label>
             <div class="col-sm-2">
-                <label>Oculus History</label>
+                <label>Ocular History :</label>
             </div>
             <div class="col-sm-3">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                    <input class="form-check-input" name="ocular" type="checkbox" id="autoSizingCheck1" value="Far-sightedness">
+                    <label class="form-check-label" for="autoSizingCheck1">
+                      Far-sightedness
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" name="ocular" type="checkbox" id="autoSizingCheck2" value="Near-sightedness">
                     <label class="form-check-label" for="autoSizingCheck2">
-                      Normal
+                      Near-sightedness
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" name="ocular" type="checkbox" id="autoSizingCheck3" value="Cylindrical">
+                    <label class="form-check-label" for="autoSizingCheck3">
+                      Cylindrical
                     </label>
                   </div>
+              </div>
             </div>
             <div class="row g-3">
             <div class="col-sm-2">
-                <label> Medical History</label>
+                <label>Medical History :</label>
             </div>
             <div class="col-sm-3">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                    <input class="form-check-input" name="medical" type="checkbox" id="autoSizingCheck2" value="Heart Issues">
                     <label class="form-check-label" for="autoSizingCheck2">
-                      Normal
+                      Heart Issues
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" name="medical" type="checkbox" id="autoSizingCheck4" value="Kidney Issues">
+                    <label class="form-check-label" for="autoSizingCheck4">
+                      Kidney Issues
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" name="medical" type="checkbox" id="autoSizingCheck5" value="Diabetes">
+                    <label class="form-check-label" for="autoSizingCheck5">
+                      Diabetes
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" name="medical" type="checkbox" id="autoSizingCheck6" value="Cancer">
+                    <label class="form-check-label" for="autoSizingCheck6">
+                      Cancer
                     </label>
                   </div>
             </div>
         </div>
+      
+        <div class="col-md-12 text-center" style="padding-top: 20px; transform: translate(-50px,0);">
+            <button type="submit" class="btn btn-primary btn-lg" style="background-color:#233b43 !important ;">Submit</button>
+        </div>
+      
       </form>
-      <div class="col-md-12 text-center" style="padding-top: 20px; transform: translate(-50px,0);">
-        <button type="submit" class="btn btn-primary btn-lg" style="background-color:#233b43 !important ;">Submit</button>
-      </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </div>
 
