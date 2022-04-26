@@ -9,31 +9,39 @@ import io
 from PIL import Image
 
 import os
-
+from unicodedata import name
+import pymysql
+import datetime 
+import smtplib
+from dotenv import load_dotenv
+from string import Template
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import collections
 #import rds_db as db
 
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
-def user_info():
-    if request.method == 'POST':
-        _email = request.form['email']
-        _first_name = request.form['fname']
-        _last_name = request.form['lname']
-        _gender = request.form['gender']
-        _age = request.form['age']
-        _ocular_hist = request.form.getlist('ocular')
-        _medical_hist = request.form.getlist('medical')
-        #print('%s %s %s %s %s %s %s', _email, _first_name,_last_name,_age,_gender,_medical_hist,_ocular_hist)
-        #user_id = db.insert_user_info(_email, _first_name, _last_name, _gender, _age, str(_ocular_hist), str(_medical_hist))
-        return render_template('Instructions.html')
+# @app.route('/', methods=['GET', 'POST'])
+# def user_info():
+#     if request.method == 'POST':
+#         _email = request.form['email']
+#         _first_name = request.form['fname']
+#         _last_name = request.form['lname']
+#         _gender = request.form['gender']
+#         _age = request.form['age']
+#         _ocular_hist = request.form.getlist('ocular')
+#         _medical_hist = request.form.getlist('medical')
+#         #print('%s %s %s %s %s %s %s', _email, _first_name,_last_name,_age,_gender,_medical_hist,_ocular_hist)
+#         #user_id = db.insert_user_info(_email, _first_name, _last_name, _gender, _age, str(_ocular_hist), str(_medical_hist))
+#         return render_template('Instructions.html')
     
-    return render_template('Userinfo.html')
+#     return render_template('Userinfo.html')
 
+@app.route('/')
 @app.route('/instructions')
 def display_inst():
-    
     return render_template('Instructions.html')
 
 @app.route('/Hypermetropia')
@@ -74,6 +82,65 @@ def blurAndSave(img, i):
         blur = cv2.blur(img, (i, i))
     cv2.imwrite(f'./static/images/blurs/{i}.png', blur)
     return blur
+
+# test_type: 1- hypermetropia, 2- myopia 
+def email(data, email_id, test_type=2):
+
+    # email_id = data[0]
+    # fname = data[1]
+    # lname = data[2]
+    # test_type_name = "Hypermetropia" if test_type == 1 else "Myopia"
+    # full_name = fname + " " + lname if fname and lname else "User"
+    # set up the SMTP server
+    s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+    s.starttls()
+    s.login("visionmjolnir@gmail.com","Password123*")
+    
+    msg = MIMEMultipart()
+    html=""
+
+    if test_type ==1:
+        html = """\
+            <html>
+                <body style="background-color:#D4D6CF;">
+                    <span style="opacity: 0"> {{ randomness }} </span>
+                    <h1 style="color:#DBA40E;">Hypermetropia  Vision Test Results</h1>
+                    <h2 style="color:#013A20;">Rajesh Satpathy</h2>
+                    <p><h3 style="color:#3F4122;">Please find your hypermetropia vision test results as follows: <br>
+                        Hypermetropia Level: """+str() + """ <br>
+                        Hypermetropia Diopter: """+str() + """ <br>
+                    </h3></p>
+                    <span style="opacity: 0"> {{ randomness }} </span>
+                </body>
+            </html>
+            """
+    else:
+        html = """\
+            <html>
+                <body style="background-color:#D4D6CF;">
+                    <span style="opacity: 0"> {{ randomness }} </span>
+                    <h1 style="color:#DBA40E;">Myopia Vision Test Results</h1>
+                    <h2 style="color:#013A20;">Rajesh Satpathy</h2>
+                    <p><h3 style="color:#3F4122;">Please find your myopia vision test results as follows: <br>
+                        Myopia Range: """+str(data) + """ <br>
+                    </h3></p>
+                    <span style="opacity: 0"> {{ randomness }} </span>
+                </body>
+            </html>
+            """
+    temp = MIMEText(html, 'html')
+
+    msg['From']='Mjolnir Vision Help Team'
+    msg['To']= email_id
+    msg['Subject'] ="Vision Test Results"
+
+    msg.attach(temp)
+    s.send_message(msg)
+
+    #del msg
+        
+    # Terminate the SMTP session and close the connection
+    s.quit()
 
 @app.route('/blur', methods=['GET', 'POST'])
 def blur_image():
@@ -130,8 +197,11 @@ def blur_image():
         context = dict()
         context['status'] = "True"
         blur_range = request.form['blur_range']
-        print(blur_range)
-        return render_template('blur.html', content=context)
+        email_id = request.form['email']
+        #print(blur_range, email_id)
+
+        email(blur_range, email_id)
+        return redirect('/instructions')
 
 
 
