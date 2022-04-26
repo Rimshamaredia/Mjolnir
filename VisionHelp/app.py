@@ -44,6 +44,14 @@ app = Flask(__name__)
 def display_inst():
     return render_template('Instructions.html')
 
+@app.route('/instructions_hypermetropia')
+def display_inst_hyper():
+    return render_template('Instructions_Hypermetropia.html')
+
+@app.route('/instructions_myopia')
+def display_inst_myop():
+    return render_template('Instructions_Myopia.html')
+
 @app.route('/Hypermetropia')
 def myopia_quiz():
     return render_template('Hypermetropia.html')
@@ -52,9 +60,9 @@ def myopia_quiz():
 def display_test_choices():
     return render_template('testChoice.html')
 
-@app.route("/hypermetropia")
-def display_hypeprmetropia():
-    return render_template("hypermetropia.html")
+# @app.route("/hypermetropia")
+# def display_hypeprmetropia():
+#     return render_template("hypermetropia.html")
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -110,7 +118,6 @@ def email(data, email_id, test_type=2):
                         Hypermetropia Level: """+str() + """ <br>
                         Hypermetropia Diopter: """+str() + """ <br>
                     </h3></p>
-                    <span style="opacity: 0"> {{ randomness }} </span>
                 </body>
             </html>
             """
@@ -124,7 +131,6 @@ def email(data, email_id, test_type=2):
                     <p><h3 style="color:#3F4122;">Please find your myopia vision test results as follows: <br>
                         Myopia Range: """+str(data) + """ <br>
                     </h3></p>
-                    <span style="opacity: 0"> {{ randomness }} </span>
                 </body>
             </html>
             """
