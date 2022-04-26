@@ -10,7 +10,7 @@ from PIL import Image
 
 import os
 
-import rds_db as db
+#import rds_db as db
 
 
 app = Flask(__name__)
@@ -26,13 +26,14 @@ def user_info():
         _ocular_hist = request.form.getlist('ocular')
         _medical_hist = request.form.getlist('medical')
         #print('%s %s %s %s %s %s %s', _email, _first_name,_last_name,_age,_gender,_medical_hist,_ocular_hist)
-        user_id = db.insert_user_info(_email, _first_name, _last_name, _gender, _age, str(_ocular_hist), str(_medical_hist))
+        #user_id = db.insert_user_info(_email, _first_name, _last_name, _gender, _age, str(_ocular_hist), str(_medical_hist))
         return render_template('Instructions.html')
     
     return render_template('Userinfo.html')
 
 @app.route('/instructions')
 def display_inst():
+    
     return render_template('Instructions.html')
 
 @app.route('/Hypermetropia')
@@ -66,6 +67,13 @@ def upload_image():
         context['message'] = "The image was uploaded successfully"
         return render_template('upload_image.html', content = context)
 
+def blurAndSave(img, i):
+    if i  == 0:
+        blur = img
+    else:
+        blur = cv2.blur(img, (i, i))
+    cv2.imwrite(f'./static/images/blurs/{i}.png', blur)
+    return blur
 
 @app.route('/blur', methods=['GET', 'POST'])
 def blur_image():
@@ -125,6 +133,8 @@ def blur_image():
         print(blur_range)
         return render_template('blur.html', content=context)
 
+
+
 # main driver function
 if __name__ == '__main__':
     app.run()
@@ -133,10 +143,4 @@ if __name__ == '__main__':
 # if __name__ == "__main__":
 #     app.run(ssl_context='adhoc')
 
-def blurAndSave(img, i):
-    if i  == 0:
-        blur = img
-    else:
-        blur = cv2.blur(img, (i, i))
-    cv2.imwrite(f'./static/images/blurs/{i}.png', blur)
-    return blur
+
