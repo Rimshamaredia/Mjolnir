@@ -3,13 +3,17 @@
 {%block content%}
 <div class="container" style="padding-top:50px;">
 <style>
-    .btn{
-    background-color:indianred;
-
+.card{
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
 }
+    .faq{
+       text-align: center;
+    }
 </style>
 <div class="align-middle" style="min-height: 245px; ">
-  <h2 id="one" style="text-align: center;"></h2>
+  <h2 id="one" style="text-align: center; color:crimson;"></h2>
  </div>
 <div class="container" style="padding-top:20px;">
     <div>
@@ -26,34 +30,24 @@
      <button id="next" type="submit" class="btn btn-primary mb-2">Next</button>
     </div>
   </div>
-    <p id="results" style="font-size:22px; text-align: center;"></p>
+    <p id="results" style="font-size:22px; text-align: center; color:crimson;"></p>
   </div>
 </div>
 
-<style>
-    .card{
-        margin: 0 auto; /* Added */
-        float: none; /* Added */
-        margin-bottom: 10px; /* Added */
-}
-    .faq{
-       text-align: center;
-    }
-   
-</style>
 <div class="container" style="padding-top:70px;padding-left:auto;padding-right:auto;">
       <div class="faq">
         <h1> General FAQ and Information Links</h1>
-        <h4> Click on the links to know more!</h4>
+        <h4> Click on em' to know more!</h4>
     </div> 
     <div class="card" style="width: 40rem; opacity: 70%;">
-       
-  <ul class="list-group list-group-flush" style="align-content: center; font-family:sans-serif !important; color: #ff7f50 !important;">
+  <div style="text-align:-webkit-center;">
+  <ul class="list-group list-group-flush" style="align-content: center; font-family:sans-serif !important; color: crimson !important;">
     <li class="list-group-item"><a href="https://en.wikipedia.org/wiki/Far-sightedness">Know more about Hypermetropia</a></li>
     <li class="list-group-item"><a href="https://www.mayoclinic.org/diseases-conditions/farsightedness/symptoms-causes/syc-20372495">Symptoms and causes of Hypermetropia</a></li>
     <li class="list-group-item"><a href="https://www.webmd.com/connect-to-care/lasik/hyperopia-treatments-to-know-about">Treatment Options</a></li>
      
   </ul>
+</div>
     </div>    
 </div>
 </div>
@@ -67,6 +61,7 @@
     var vals = [130,108,87,65,33,21,15,9];
     vals.reverse();
     $('#start').on('click',function(){
+      document.getElementById("results").innerHTML = '';
       temp = document.getElementById("one");
       temp.style.fontSize = 152 + 'pt';
       temp.innerHTML = Math.floor(Math.random() * 10);

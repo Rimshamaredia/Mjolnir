@@ -1,4 +1,4 @@
-{%extends "base2.html" %}
+{%extends "base.html" %}
 {%block content%}
 
 <body>
@@ -42,13 +42,14 @@
         </table>
 
         <div class="form-group">
-            <p style="font-size: medium;">Satisfied with the blur range? Store your reports</p>
+            <p style="font-size: medium;">Satisfied with the blur range? Send your reports</p>
             <form action="" method="post">
                 <input type="text" value="{{content['i_s'][0]}} to {{content['i_s'][2]}}" name="blur_range" hidden></input>
-                <label for="email" style="font-size: medium;">Enter your email id to submit reports / store your
-                    data</label>
+                <label for="email" style="font-size: medium;">Enter your email id:</label>
                 <input type="text" class="form-control" id="email" name="email"></input>
-                <button type="submit" class="btn btn-success" style="font-size: medium;">Store Record</button>
+                <input type="text" class="form-control" id="full_name" name="full_name"></input>
+                <label for="full_name" style="font-size: medium;">Enter your full name:</label>
+                <button type="submit" class="btn btn-success" style="font-size: medium;">Send Report</button>
             </form>
 
         </div>
